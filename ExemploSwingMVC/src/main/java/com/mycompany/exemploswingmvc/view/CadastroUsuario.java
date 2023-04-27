@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -24,6 +25,7 @@ import javax.swing.text.MaskFormatter;
 public class CadastroUsuario {
     
     private JFrame frame;
+    private Usuario usuarioAlteracao;
     
     public JFrame getFrame() {
         return frame;
@@ -31,6 +33,10 @@ public class CadastroUsuario {
     
     public void setFrame(JFrame frame) {
         this.frame = frame;
+    }
+    
+    public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
+        this.usuarioAlteracao = usuarioAlteracao;
     }
     
     public void criarCadastroUsuario() {
@@ -43,7 +49,13 @@ public class CadastroUsuario {
         labelId.setBounds(10,10,50,20);
         
         JTextField textId = new JTextField();
-        textId.setText("Id");
+        
+        if (usuarioAlteracao == null){
+            textId.setText("Id");
+        } else {
+            textId.setText(String.valueOf(usuarioAlteracao.getId()));
+        }
+        
         textId.setBounds(110,10,200,20);
         textId.setEnabled(false);
         
@@ -52,7 +64,13 @@ public class CadastroUsuario {
         labelNome.setBounds(10,40,50,20);
         
         JTextField textNome = new JTextField();
-        textNome.setText("Nome");
+        
+        if (usuarioAlteracao == null){
+            textId.setText("Nome");
+        } else {
+            textId.setText(String.valueOf(usuarioAlteracao.getNome()));
+        }        
+        
         textNome.setBounds(110,40,200,20);
         
         JLabel labelCpf = new JLabel();
@@ -70,7 +88,13 @@ public class CadastroUsuario {
         }
         
         JFormattedTextField jFormattedCpf = new JFormattedTextField(mascaraCpf);
-        jFormattedCpf.setText("000.000.000-00");
+        
+        if (usuarioAlteracao == null){
+            textId.setText("000.000.000-00");
+        } else {
+            textId.setText(String.valueOf(usuarioAlteracao.getCpf()));
+        }
+        
         jFormattedCpf.setBounds(110,70,200,20);
         
         JLabel labelTipoUsuario = new JLabel();
@@ -86,7 +110,11 @@ public class CadastroUsuario {
         comboTipoUsuario.setBounds(110, 100 ,200, 20);
         
         JButton buttonCadastrar = new JButton();
-        buttonCadastrar.setText("Cadastrar");
+        if (usuarioAlteracao == null){
+            buttonCadastrar.setText("Cadastrar");
+        } else {
+            buttonCadastrar.setText("Alterar");
+        }        
         buttonCadastrar.setBounds(10, 200, 90, 25);
         
         buttonCadastrar.addActionListener(new ActionListener(){
@@ -100,7 +128,28 @@ public class CadastroUsuario {
                 usuario.setCpf(jFormattedCpf.getText());
                 usuario.setNome(textNome.getText());
                 usuario.setTipoUsuario((TipoUsuario) comboTipoUsuario.getSelectedItem());
-                usuarioController.insert(usuario);            
+                
+                if(usuarioAlteracao == null){
+                    usuarioController.insert(usuario);
+                    JOptionPane.showMessageDialog(null,
+                            "Usuario cadastrado com sucesso!");
+                } else {
+                    usuario.setId(usuarioAlteracao.getId());
+                    usuarioController.update(usuario);
+                    JOptionPane.showMessageDialog(null, 
+                            "Usuário alterado com sucesso!");
+                }                    
+            }
+        }
+        );
+        
+        JButton buttonFechar = new JButton();
+        buttonFechar.setText("Fechar");
+        buttonFechar.setBounds(110,150,90,25);
+        
+        buttonFechar.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
             }
         }
         );
@@ -119,8 +168,9 @@ public class CadastroUsuario {
         panelCadastroUsuario.add(comboTipoUsuario);
 
         panelCadastroUsuario.add(buttonCadastrar);
+        panelCadastroUsuario.add(buttonFechar);
 
-        frame.add(panelCadastroUsuario, BorderLayout.CENTER);
+        frame.getContentPane().add(panelCadastroUsuario, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 }

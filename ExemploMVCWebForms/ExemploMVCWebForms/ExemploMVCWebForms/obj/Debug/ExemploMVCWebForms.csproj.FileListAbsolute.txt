@@ -1,0 +1,2 @@
+C:\Users\Aluno\Desktop\bispo\IFPR\ExemploMVCWebForms\ExemploMVCWebForms\ExemploMVCWebForms\obj\Debug\ExemploMVCWebForms.csproj.AssemblyReference.cache
+C:\Users\Aluno\Desktop\bispo\IFPR\ExemploMVCWebForms\ExemploMVCWebForms\ExemploMVCWebForms\obj\Debug\ExemploMVCWebForms.csproj.CoreCompileInputs.cache
