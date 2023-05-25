@@ -9,7 +9,15 @@ namespace ExemploMVCWebForms.dao
 {
     public class UsuarioDao
     {
-        private Conexao conexao = new Conexao();;
+        private Conexao conexao = new Conexao();
+        public void delete(int id)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = conexao.Connection;
+            command.CommandText = "Delete From Usuario where id = @id";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+        }
 
         public void Create(Usuario usuario)
         {
@@ -17,32 +25,104 @@ namespace ExemploMVCWebForms.dao
             command.Connection = conexao.Connection;
             command.CommandText = "Insert into Usuario VALUES(@nome, @cpf, @idTipoUsuario)";
 
-            command.Parameters.AddWithValue("@nome", usuario.nome);
+            command.Parameters.AddWithValue("@nome", usuario.Nome);
             command.Parameters.AddWithValue("@cpf", usuario.Cpf);
-            command.Parameters.AddWithValue("@idTipoUsuario", usuario.TipoUsuario.id);
+            command.Parameters.AddWithValue("@idTipoUsuario", usuario.TipoUsuario.Id);
 
-            command.ExecuteNonQuery();  
+            command.ExecuteNonQuery();
         }
-    }
 
-    public List<Usuario> findAll()
-    {
-        SqlCommand command = new SqlCommand();
-        command.Connection = Conexao.Connection;
-        command.CommandText = "SELECT id, nome, cpf, idTipoUsuario FROM Usuario";
-
-        SqlDataReader reader = command.ExecuteReader();
-        List<Usuario> usuarios = new List<Usuario>();
-
-        while (reader.Read())
+        public Usuario findById(int id)
         {
+            SqlCommand command = new SqlCommand();
+            command.Connection = conexao.Connection;
+            command.CommandText = "Select id, nome, cpf, idTipoUsuario FROM Usuario" +
+                "where id = @id";
+            command.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader reader = command.ExecuteReader();
             Usuario usuario = new Usuario();
-            usuario.Id = Convert.ToInt32(reader[0]);
-            usuario.Nome = Convert.ToString(reader[1]);
-            usuario.Cpf = Convert.ToString(reader[2]);
-            usuario.TipoUsuario.Id = Convert.ToInt32(reader[3]);
-            usuarios.Add(usuario);
+
+            while (reader.Read())
+            {
+                usuario.Id = Convert.ToInt32(reader[0]);
+                usuario.Nome = Convert.ToString(reader[1]);
+                usuario.Cpf = Convert.ToString(reader[2]);
+                usuario.TipoUsuario.Id = Convert.ToInt32(reader[3]);
+            }
+            return usuario;
         }
-        return usuarios;
+
+        public List<Usuario> findByNomeOuCpf(String nome, String cpf)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = conexao.Connection;
+            command.CommandText = "SELECT id, nome, cpf, idTipoUsuario FROM Usuario";
+
+            if (nome != "" && cpf != "")
+            {
+                command.CommandText = command.CommandText +
+                    " where nome like '%" + nome + "%' " +
+                    " and cpf like '%" + cpf + "%' ";
+            }
+            else if (nome != "")
+            {
+                command.CommandText = command.CommandText +
+                    " where nome like '%" + nome + "%' ";
+            }
+            else if (cpf != "")
+            {
+                command.CommandText = command.CommandText +
+                    " where cpf like '%" + cpf + "%' ";
+            }
+
+            SqlDataReader reader = command.ExecuteReader();
+            List<Usuario> usuarios = new List<Usuario>();
+
+            while (reader.Read())
+            {
+                Usuario usuario = new Usuario();
+                usuario.Id = Convert.ToInt32(reader[0]);
+                usuario.Nome = Convert.ToString(reader[1]);
+                usuario.Cpf = Convert.ToString(reader[2]);
+                usuario.TipoUsuario.Id = Convert.ToInt32(reader[3]);
+                usuarios.Add(usuario);
+            }
+            return usuarios;
+        }
+
+
+        public List<Usuario> findAll()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = conexao.Connection;
+            command.CommandText = "SELECT id, nome, cpf, idTipoUsuario FROM Usuario";
+
+            SqlDataReader reader = command.ExecuteReader();
+            List<Usuario> usuarios = new List<Usuario>();
+
+            while (reader.Read())
+            {
+                Usuario usuario = new Usuario();
+                usuario.Id = Convert.ToInt32(reader[0]);
+                usuario.Nome = Convert.ToString(reader[1]);
+                usuario.Cpf = Convert.ToString(reader[2]);
+                usuario.TipoUsuario.Id = Convert.ToInt32(reader[3]);
+                usuarios.Add(usuario);
+            }
+            return usuarios;
+        }
+
+        public void update(Usuario usuario)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = conexao.Connection;
+            command.CommandText = "Update Usuario set cpf = '" + usuario.Cpf + "'," +
+                " nome = '" + usuario.Nome + "', " +
+                " idTipoUsuario = " + usuario.TipoUsuario.Id +
+                " where id = " + usuario.Id;
+
+            command.ExecuteNonQuery();
+        }
     }
 }

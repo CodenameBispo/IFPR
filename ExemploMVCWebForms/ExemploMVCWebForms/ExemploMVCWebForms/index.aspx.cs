@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,16 +9,16 @@ namespace ExemploMVCWebForms
 {
     public partial class index : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventsArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            MenuCommand newMenu = new Menu();
+            Menu newMenu = new Menu();
 
-            newMenu.CommandID = "NavigationMenu";
+            newMenu.ID = "NavigationMenu";
             newMenu.DisappearAfter = 2000;
             newMenu.Orientation = Orientation.Horizontal;
             newMenu.Target = "_blank";
             //newMenu.StaticMenuItemStyle.ForeColor = System.Drawing.Color.Black;
-            //newMenu.DynamicMenuItemStyle.ForeColor = System.Drawing.Color.Gray;
+            //newMenu.DinamicMenuItemStyle.ForeColor = System.Drawing.Color.Gray;
 
             MenuItem menuCadastro;
             menuCadastro = CreateMenuItem("Cadastro", "", "Cadastro");
@@ -28,25 +27,28 @@ namespace ExemploMVCWebForms
             menuProcura = CreateMenuItem("Procura", "", "Procura");
 
             MenuItem menuCadastroUsuario;
-            menuCadastroUsuario = CreateMenuItem("Usuário",
-                "view/cadastroUsuario.aspx", "Cadastro de Usuários");
+            menuCadastroUsuario = CreateMenuItem("Usuário", "view/cadastroUsuario.aspx", "Cadastro de Usuários");
+
             MenuItem menuProcuraUsuario;
-            menuProcuraUsuario = CreateMenuItem("Usuário",
-                "view/procuraUsuario.aspx", "Procura de Usuários");
+            menuProcuraUsuario = CreateMenuItem("Usuário", "view/procuraUsuario.aspx", "Procura de Usuários");
+
+            menuCadastro.ChildItems.Add(menuCadastroUsuario);
+            menuProcura.ChildItems.Add(menuProcuraUsuario);
 
             newMenu.Items.Add(menuCadastro);
             newMenu.Items.Add(menuProcura);
 
             Menu.Controls.Add(newMenu);
 
-            MenuItem CreateMenuItem(String text, String url, String toolTip)
-            {
-                CreateMenuItem menuItem = new CreateMenuItem();
-                menuItem.Text = text;
-                menuItem.NavigateUrl = url;
-                menuItem.Too= toolTip;
-                return menuItem;
-            }
         }
+        MenuItem CreateMenuItem(String text, String url, String toolTip)
+        {
+            MenuItem menuItem = new MenuItem();
+            menuItem.Text = text;
+            menuItem.NavigateUrl = url;
+            menuItem.ToolTip = toolTip;
+            return menuItem;
+        }
+
     }
 }

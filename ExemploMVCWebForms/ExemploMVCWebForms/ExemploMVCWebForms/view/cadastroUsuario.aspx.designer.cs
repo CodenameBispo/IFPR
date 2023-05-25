@@ -39,7 +39,7 @@ namespace ExemploMVCWebForms.view
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField id;
+        protected global::System.Web.UI.WebControls.TextBox id;
 
         /// <summary>
         /// Controle labelNome.
@@ -103,5 +103,14 @@ namespace ExemploMVCWebForms.view
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button cadastrar;
+
+        /// <summary>
+        /// Controle excluir.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button excluir;
     }
 }

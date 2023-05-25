@@ -15,7 +15,7 @@
                 <tr><td>
                     <asp:Label ID="labelId" runat="server" Text="Id: "> </asp:Label>
                 </td><td>
-                    <asp:HiddenField ID="id" runat="server" />
+                    <asp:TextBox ID="id" enabled= "false" runat="server" />
                 </td></tr>
                 <tr><td>
                     <asp:Label ID="labelNome" runat="server" Text="Nome: "></asp:Label>
@@ -34,6 +34,9 @@
                 </td></tr>
                 <tr><td>
                     <asp:Button ID="cadastrar" runat="server" Text="Cadastrar" OnClick="cadastrar_Click" />
+                </td></tr>
+                <tr><td>
+                    <asp:Button ID="excluir" runat="server" Text="Excluir" OnClick="excluir_Click" />
                 </td></tr>
             </table>
         </div>

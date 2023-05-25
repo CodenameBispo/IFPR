@@ -10,15 +10,41 @@ namespace ExemploMVCWebForms.controller
 {
     public class UsuarioController : Controller
     {
-        public void Create(Usuario usuario)
+        public void delete(int id)
         {
-            Usuario usuario = new Usuario();
-            UsuarioDao usuarioDao = new UsuarioDao();             
+            UsuarioDao usuarioDao = new UsuarioDao();
+            usuarioDao.delete(id);
         }
+
+        public void create(Usuario usuario)
+        {
+            //Usuario usuario = new Usuario();
+            UsuarioDao usuarioDao = new UsuarioDao();     
+            usuarioDao.Create(usuario);
+        }
+
+        public Usuario findById(int id)
+        {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            return usuarioDao.findById(id);
+        }
+
+        public List<Usuario> findByNomeOuCpf(String nome, String cpf)
+        {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            return usuarioDao.findByNomeOuCpf(nome, cpf);
+        }
+
         public List<Usuario> findAll()
         {
             UsuarioDao usuarioDao = new UsuarioDao();
-            return usuarioDao.findAll;
+            return usuarioDao.findAll();
+        }
+
+        public void update(Usuario usuario)
+        {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            usuarioDao.update(usuario);
         }
     }
 }
